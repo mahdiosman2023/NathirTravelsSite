@@ -36,7 +36,7 @@ const Contact: React.FC = () => {
     try {
       // Check if we're in development or production
       const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:5000/send'
+        ? 'http://localhost:3001/send'
         : '/api/send'; // For StackBlitz or production
         
       const response = await fetch(apiUrl, {
