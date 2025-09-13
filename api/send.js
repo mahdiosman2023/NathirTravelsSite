@@ -142,6 +142,13 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Debug environment variables
+    console.log('Environment check:', {
+      EMAIL_USER: process.env.EMAIL_USER,
+      EMAIL_PASS_LENGTH: process.env.EMAIL_PASS ? process.env.EMAIL_PASS.length : 'NOT_SET',
+      NODE_ENV: process.env.NODE_ENV
+    });
+    
     // Send email using Gmail SMTP
     const emailData = { name, email, packageType, travelDate, comments };
     const result = await sendEmailViaSMTP(emailData);
@@ -162,11 +169,15 @@ export default async function handler(req, res) {
     console.error('Error details:', {
       message: error.message,
       code: error.code,
-      response: error.response
+      response: error.response,
+      stack: error.stack
     });
     
+    // Return more detailed error for debugging
     res.status(500).json({ 
-      message: 'There was an error sending your request. Please try again later or contact us directly at nathirtravels25@gmail.com' 
+      message: 'There was an error sending your request. Please try again later or contact us directly at nathirtravels25@gmail.com',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error',
+      code: process.env.NODE_ENV === 'development' ? error.code : undefined
     });
   }
 }
