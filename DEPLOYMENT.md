@@ -44,11 +44,33 @@ This project has been configured to deploy on Vercel with serverless functions. 
 
 ## Environment Variables
 
-If you need to set environment variables (for email configuration, etc.):
+**IMPORTANT**: You must set up Gmail App Password for email functionality to work.
 
-1. Go to your Vercel project dashboard
-2. Navigate to Settings > Environment Variables
-3. Add any required variables
+### Setting up Gmail App Password
+
+1. **Enable 2-Factor Authentication** on your Gmail account:
+   - Go to [Google Account Security](https://myaccount.google.com/security)
+   - Enable 2-Step Verification if not already enabled
+
+2. **Generate App Password**:
+   - Go to Security > 2-Step Verification > App passwords
+   - Select "Mail" as the app
+   - Copy the 16-character password generated
+
+3. **Set Environment Variables in Vercel**:
+   - Go to your Vercel project dashboard
+   - Navigate to Settings > Environment Variables
+   - Add these variables:
+     - `EMAIL_USER`: `nathirtravels25@gmail.com`
+     - `EMAIL_PASS`: `your_16_character_app_password`
+
+### Local Development
+
+For local testing, create a `.env.local` file in your project root:
+```bash
+EMAIL_USER=nathirtravels25@gmail.com
+EMAIL_PASS=your_app_password_here
+```
 
 ## API Endpoints
 
@@ -67,12 +89,28 @@ For local development with the serverless functions:
 ## Troubleshooting
 
 ### Email Not Working
-- The current setup uses a fallback email system
-- For production, consider using:
-  - SendGrid
-  - Mailgun
-  - AWS SES
-  - Or a form service like Formspree
+
+**Common Issues & Solutions:**
+
+1. **"Invalid login" error**:
+   - Make sure you're using an App Password, not your regular Gmail password
+   - Verify 2-Factor Authentication is enabled on your Gmail account
+
+2. **"Less secure app access" error**:
+   - This is normal - Gmail requires App Passwords for SMTP
+   - Use the App Password generated from Google Account settings
+
+3. **"Connection timeout" error**:
+   - Check your Vercel environment variables are set correctly
+   - Verify the EMAIL_USER and EMAIL_PASS variables
+
+4. **Emails not received**:
+   - Check your spam/junk folder
+   - Verify the recipient email is correct: `nathirtravels25@gmail.com`
+
+**Testing Email Functionality:**
+- Use the test script: `node test-api.js`
+- Check Vercel function logs for detailed error messages
 
 ### CORS Issues
 - CORS is already configured in the serverless functions

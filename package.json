@@ -10,7 +10,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "vercel-build": "vite build"
+    "vercel-build": "vite build",
+    "test:email": "node test-api.js",
+    "setup:email": "node setup-email.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
