@@ -49,7 +49,7 @@ const sendEmailViaWebhook = async (formData) => {
 };
 
 // Contact form endpoint
-app.post('/send', async (req, res) => {
+app.post('/api/send', async (req, res) => {
   const { name, email, packageType, travelDate, comments } = req.body;
 
   // Validation
@@ -147,7 +147,7 @@ app.post('/send', async (req, res) => {
 });
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running', timestamp: new Date().toISOString() });
 });
 

@@ -34,10 +34,10 @@ const Contact: React.FC = () => {
     setMessage('');
 
     try {
-      // Check if we're in development or production
+      // Use the deployed Vercel API for both development and production
       const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:3001/send'
-        : '/api/send'; // For StackBlitz or production
+        ? 'https://nathir-travels-site-donz.vercel.app/api/send'  // Your deployed Vercel API
+        : '/api/send'; // Vercel API route for production
         
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -58,15 +58,8 @@ const Contact: React.FC = () => {
         setMessageType('error');
       }
     } catch (error) {
-      // For StackBlitz demo, show a success message since backend might not be available
-      if (window.location.hostname.includes('stackblitz')) {
-        setMessage('Demo mode: Your request would be sent to nathirtravels25@gmail.com. In production, this form is fully functional!');
-        setMessageType('success');
-        setFormData({ name: '', email: '', packageType: '', travelDate: '', comments: '' });
-      } else {
-        setMessage('Unable to connect to server. Please try again later or contact us directly at nathirtravels25@gmail.com');
-        setMessageType('error');
-      }
+      console.error('Error sending request:', error);
+      setMessage('Unable to connect to server. Please try again later or contact us directly at nathirtravels25@gmail.com');
       setMessageType('error');
     } finally {
       setIsSubmitting(false);
